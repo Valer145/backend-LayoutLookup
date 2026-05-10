@@ -11,14 +11,14 @@ const getStyleById = asyncHandler(async (req, res) => {
 
     if (!style) {
         res.status(404)
-        throw new Error("Style no encontrado")
+        throw new Error("Interior design not found")
     }
 
     res.status(200).json(style)
 })
 
 const createStyle = asyncHandler(async (req, res) => {
-    const { name, description, imageUrl } = req.body;
+    const { name, description} = req.body;
 
     
     if (!name) {
@@ -29,15 +29,10 @@ const createStyle = asyncHandler(async (req, res) => {
         res.status(400)
         throw new Error("Teclea la descripcion del estilo")
     }
-    if (!imageUrl) {
-        res.status(400)
-        throw new Error("Teclea la URL de la imagen")
-    }
 
     const style = await DesignStyle.create({
         name,
-        description,
-        imageUrl
+        description
         
     })
 
@@ -45,7 +40,7 @@ const createStyle = asyncHandler(async (req, res) => {
         res.status(201).json(style)
     } else {
         res.status(500)
-        throw new Error("Hubo un error al crear el estilo")
+        throw new Error("There was an error creating the style")
     }
 })
 
@@ -54,7 +49,7 @@ const updateStyle = asyncHandler(async (req, res) => {
 
     if (!style) {
         res.status(404)
-        throw new Error("Style no encontrado")
+        throw new Error("Interior design not found")
     }
 
     const styleUpdated = await DesignStyle.findByIdAndUpdate(
@@ -71,11 +66,11 @@ const deleteStyle = asyncHandler(async (req, res) => {
 
     if (!style) {
         res.status(404)
-        throw new Error("Style no encontrado")
+        throw new Error("Interior design not found")
     }
 
     await DesignStyle.deleteOne({ _id: req.params.id })
-    res.status(200).json({ "Mensaje": "Estilo eliminado" })
+    res.status(200).json({ "Mensaje": "Interior design deleted" })
 })
 
 module.exports = {
